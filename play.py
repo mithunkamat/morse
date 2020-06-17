@@ -12,9 +12,9 @@ import morse
 SPS = 8000
 LETTERS = string.ascii_uppercase
 FREQ = 750
-WPM = 25
-FS = 10
-AUDIO_PADDING = 0.5  # Seconds
+WPM = 5
+FS = 1
+AUDIO_PADDING = 0.0  # Seconds
 CLICK_SMOOTH = 2  # Tone periods
 
 
@@ -144,10 +144,13 @@ if __name__ == '__main__':
   if len(args.message) > 0:
     message = ' '.join(args.message)
   else:
-    message = sys.stdin.read()
+    # message = sys.stdin.read()
+    message = input()
+    print('Your msg: ' + message)
 
   if not message:
     print('Specify a message through the command line or stdin.')
     message = 'Specify a message.'
   main(message, args.f, args.wpm, args.fs, args.p, args.o)
+  # main(message, TONE_FREQ, WPM, args.fs, args.p, args.o)
 
