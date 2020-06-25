@@ -17,7 +17,7 @@ if __name__ == '__main__':
   parser.add_argument('--fs', type=float, default=play.FS, help='Farnsworth speed')
   parser.add_argument('-p', action='store_true', default=False, help='Say letters along with morse code')
   parser.add_argument('-o', type=str, default='', help='Output to given WAV file instead of playing sound')
-  parser.add_argument('letters', nargs='*', help='Letters to repeat')
+  parser.add_argument('letters', default='2389', nargs='*', help='Letters to repeat')
   args = parser.parse_args()
 
   if len(args.letters) > 0:

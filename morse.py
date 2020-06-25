@@ -22,7 +22,8 @@ def morseSampleDuration(code, sps, wpm, fs=None):
   samplesPerDot = int(round(baseSampleCount))
   samplesPerDash = int(round(baseSampleCount * DASH_WIDTH))
   samplesBetweenElements = int(round(baseSampleCount))
-  farnsworthScale = farnsworthScaleFactor(wpm, fs)
+  # farnsworthScale = farnsworthScaleFactor(wpm, fs)
+  farnsworthScale = farnsworthScaleFactor(wpm)
   samplesBetweenLetters = int(round(baseSampleCount * CHAR_SPACE * farnsworthScale))
   samplesBetweenWords = int(round(baseSampleCount * WORD_SPACE * farnsworthScale))
 
@@ -60,7 +61,8 @@ def morseToBoolArr(code, sps, wpm, fs=None):
   samplesPerDot = int(round(baseSampleCount))
   samplesPerDash = int(round(baseSampleCount * DASH_WIDTH))
   samplesBetweenElements = int(round(baseSampleCount))
-  farnsworthScale = farnsworthScaleFactor(wpm, fs)
+  # farnsworthScale = farnsworthScaleFactor(wpm, fs)
+  farnsworthScale = farnsworthScaleFactor(wpm)
   samplesBetweenLetters = int(round(baseSampleCount * CHAR_SPACE * farnsworthScale))
   samplesBetweenWords = int(round(baseSampleCount * WORD_SPACE * farnsworthScale))
 
@@ -95,7 +97,7 @@ def wpmToDps(wpm):
   ''' Words per minute = number of times PARIS can be sent per minute.
       PARIS takes 50 dot lengths to send.  Returns dots per seconds. '''
   return wpm*50/60.0
-def farnsworthScaleFactor(wpm, fs=None):
+def farnsworthScaleFactor(wpm, fs=3):
   ''' Returns the multiple that character and word spacing should be multiplied by. '''
   if fs is None:
     return 1  # Standard (not Farnsworth) word spacing
@@ -106,8 +108,11 @@ def farnsworthScaleFactor(wpm, fs=None):
   standardSpaceDots = 4*CHAR_SPACE + WORD_SPACE  # For the word PARIS
   totalSpaceDots = standardSpaceDots + extraSpaceDots
   scaleFactor = totalSpaceDots / standardSpaceDots
+  # print('WPM: ' + str(wpm))
   if scaleFactor < 1:
+    # print('scaleFactor: ' + str(scaleFactor))
     return 1
+  # print('scaleFactor: ' + str(scaleFactor))
   return scaleFactor
 
 

@@ -27,10 +27,13 @@ def main(message, freq, wpm, fs, prompt, outFile):
     sps = SPS
   print('Audio samples per second =', sps)
   print('Tone period     =', round(1000/freq, 1), 'ms')
+  print('wpm             =', str(wpm))
 
   dps = morse.wpmToDps(wpm)  # Dots per second
   mspd = 1000/dps  # Dot duration in milliseconds
-  farnsworthScale = morse.farnsworthScaleFactor(wpm, fs)
+  # farnsworthScale = morse.farnsworthScaleFactor(wpm, fs)
+  farnsworthScale = morse.farnsworthScaleFactor(wpm)
+  print('farnsworthScale =', str(farnsworthScale))
   print('Dot width       =', round(mspd, 1), 'ms')
   print('Dash width      =', int(round(mspd * morse.DASH_WIDTH)), 'ms')
   print('Character space =', int(round(mspd * morse.CHAR_SPACE * farnsworthScale)), 'ms')
@@ -77,6 +80,7 @@ def boolArrToSwitchedTone(boolArr, freq, sps, volume=1.0):
   toneArr = np.sin(x * (freq*2*np.pi/sps)) * volume
   toneArr *= smoothBoolArr
   return toneArr
+
 def stringToMorseAudio(message, sps=SPS, wpm=WPM, fs=FS, freq=FREQ, volume=1.0, letterPrompts=None, promptVolume=1.0):
   message = message.upper()
   code = morse.stringToMorse(message)
@@ -138,7 +142,7 @@ if __name__ == '__main__':
   parser.add_argument('--fs', type=float, default=FS, help='Farnsworth speed')
   parser.add_argument('-p', action='store_true', default=False, help='Say letters along with morse code')
   parser.add_argument('-o', type=str, default='', help='Output to given WAV file instead of playing sound')
-  parser.add_argument('message', nargs='*', help='Text to translate or blank to take from stdin')
+  parser.add_argument('message', default=' PARIS PARIS PARIS PARIS PARIS', nargs='*', help='Text to translate or blank to take from stdin')
   args = parser.parse_args()
 
   if len(args.message) > 0:
